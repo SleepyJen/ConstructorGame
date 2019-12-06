@@ -10,6 +10,10 @@ class Word {
         }
     }
 
+    contains(letter) {
+        return this.word.toLowerCase().includes(letter) ? true : false;
+    }
+
     toString() {
         let result = '';
         for (let i = 0; i < this.letters.length; i++) {
@@ -35,7 +39,6 @@ class Word {
                 count++;
             }
         }
-        console.log(count);
 
         if (count === this.letters.length) {
             this.done = true;

@@ -1,7 +1,12 @@
 var inq = require('inquirer');
 var Word = require('./Word');
+const color = require('colors');
 
 var movieDatabase = ['The Avengers', 'Cinderella', 'The Little Mermaid', 'Frozen'];
+var win = 0;
+var lose = 0;
+var guessesLeft = 10;
+var guessedLetters = [];
 
 function getRandomMovie() {
     let rand = Math.floor(Math.random() * movieDatabase.length);
@@ -15,18 +20,47 @@ function getRandomMovie() {
             message: 'Please enter a letter or number',
             name: 'input'
         }).then(result => {
-            movie.userGuess(result.input);
-            movie.toString();
-            if (!movie.finished()) {
-                inPlay();
+            let input = result.input;
+            if (!guessedLetters.includes(input)) {
+                guessedLetters.push(input);
+                movie.userGuess(input);
+                if (!movie.contains(input)) {
+                    guessesLeft--;
+                    console.log('Sorry, thats Wrong'.brightRed);
+                }
+
+                movie.toString();
+                console.log("Guessed Left: ".cyan + guessesLeft);
+                console.log("Guessed letters: ".blue + guessedLetters);
+
+                console.log("Wins: ".green + win + "\nLose: ".red + lose);
+                if (guessesLeft < 1) {
+                    console.log("Sorry, better luck next time");
+                    lose++;
+                    main();
+                }
+
+                if (!movie.finished()) {
+                    inPlay();
+                } else {
+                    if (guessesLeft > 0) {
+                        console.log("Congrats!! you did it!!! ".rainbow);
+                        win++;
+                        main();
+                    } else {
+                        console.log("Sorry, better luck next time");
+                        lose++;
+                        main();
+                    }
+                }
             } else {
-                process.exit();
+                console.log("Sorry, that letter was already chosen! Try again");
+                inPlay();
             }
+
         });
     }
 }
-
-
 
 
 function main() {
@@ -36,6 +70,8 @@ function main() {
         choices: ['Play!', 'Exit'],
         name: 'choice'
     }).then(result => {
+        guessesLeft = 10;
+        guessedLetters = [];
         if (result.choice === 'Play!') {
             getRandomMovie();
         } else {
