@@ -2,7 +2,8 @@ var inq = require('inquirer');
 var Word = require('./Word');
 const color = require('colors');
 
-var movieDatabase = ['The Avengers', 'Cinderella', 'The Little Mermaid', 'Frozen'];
+var movieDatabase = ['The Avengers', 'Cinderella', 'The Little Mermaid', 'Frozen', 'Mulan', 'Mary Poppins',
+    'The Lion King', 'Monsters Inc', 'Cars', 'Alice in Wonderland'];
 var win = 0;
 var lose = 0;
 var guessesLeft = 10;
@@ -46,16 +47,15 @@ function getRandomMovie() {
                         win++;
                         main();
                     } else {
-                        console.log("Sorry, better luck next time");
+                        console.log("Sorry, better luck next time".brightRed);
                         lose++;
                         main();
                     }
                 }
             } else {
-                console.log("Sorry, that letter was already chosen! Try again");
+                console.log("Sorry, that letter was already chosen! Try again".brightRed);
                 inPlay();
             }
-
         });
     }
 }
