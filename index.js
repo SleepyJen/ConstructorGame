@@ -38,9 +38,7 @@ function getRandomMovie() {
                     console.log("Sorry, better luck next time");
                     lose++;
                     main();
-                }
-
-                if (!movie.finished()) {
+                } else if (!movie.finished()) {
                     inPlay();
                 } else {
                     if (guessesLeft > 0) {
